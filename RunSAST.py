@@ -58,7 +58,14 @@ class AppScanOnCloudSAST():
         comment = ""
         
         logging.info("========== Step 0: Preparation ====================")
-
+        
+        logging.info(f"Target Path [{self.targetDir}]")
+        if(os.path.isdir(self.targetDir) or os.path.isfile(self.targetDir)):
+            logging.info("Verified target path exists")
+        else:
+            logging.error("Target path does not exist!")
+            return False
+        
         #Create the saclient dir if it doesn not exist
         saclientPath = os.path.join(self.cwd, "saclient")
         if(not os.path.isdir(saclientPath)):
@@ -86,9 +93,17 @@ class AppScanOnCloudSAST():
                 return False
             else:
                 logging.info(f"Created dir [{reportsDir}]")
+                
         #Make sure we have write permission on the reports dir
         logging.info("Setting permissions on reports dir")
-        os.chmod(reportsDir, 755)
+        result = os.system(f"chmod -R 755 {reportsDir}")
+        
+        if(result == 0):
+            logging.info("Successfully set permissions")
+        else:
+            logging.error("Failed setting permissions")
+            return None
+            
         logging.info("========== Step 0: Complete =======================\n")
         
         #Step 1: Download the SACLientUtil
@@ -390,11 +405,11 @@ class AppScanOnCloudSAST():
         ts = time.time()
         return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
     
-    def fail(messag=""):
+    def fail(self, messag=""):
         logging.info("Action Failed: {message}")
         sys.exit(1)
         
-    def success(message=""):
+    def success(self, message=""):
         logging.info("Action Success: {message}")
         
 if __name__ == '__main__':
