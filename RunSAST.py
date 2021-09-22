@@ -9,6 +9,7 @@ import datetime
 import shutil
 import logging
 import sys
+import stat
 
 logging.basicConfig(filename='asoc.log', encoding='utf-8', format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
@@ -213,6 +214,7 @@ class AppScanOnCloudSAST():
             
         if(os.path.exists(appscanPath)):
             logging.info(f"AppScan Bin Path [{appscanPath}]")
+            os.chmod(appscanPath, stat.S_IXOTH)
         else:
             logging.error("Something went wrong setting up the SAClientUtil")
             logging.error(f"AppScan Bin [{appscanPath}] not found!")
