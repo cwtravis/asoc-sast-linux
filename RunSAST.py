@@ -68,11 +68,11 @@ class AppScanOnCloudSAST():
                 logging.info(f"Created dir [{saclientPath}]")
             except:
                 logging.error(f"Error creating saclient path [{saclientPath}]")
-                self.fail(message="Error Running ASoC SAST Pipeline")
+                self.fail("Error Running ASoC SAST Pipeline")
                 return False
             if(not os.path.isdir(saclientPath)):
                 logging.error(f"Error creating saclient path [{saclientPath}]")
-                self.fail(message="Error Running ASoC SAST Pipeline")
+                self.fail("Error Running ASoC SAST Pipeline")
                 return False
                 
         #Create Reports Dir if it does not exist 
@@ -82,7 +82,7 @@ class AppScanOnCloudSAST():
             os.mkdir(reportsDir)
             if(not os.path.isdir(reportsDir)):
                 logging.error(f"Cannot create reports dir! [{reportsDir}]")
-                self.fail(message="Error Running ASoC SAST Pipeline")
+                self.fail("Error Running ASoC SAST Pipeline")
                 return False
             else:
                 logging.info(f"Created dir [{reportsDir}]")
@@ -96,7 +96,7 @@ class AppScanOnCloudSAST():
         appscanPath = self.getSAClient(saclientPath)
         if(appscanPath is None):
             logging.error("AppScan Path not found, something went wrong with SACLientUtil Download?")
-            self.fail(message="Error Running ASoC SAST Pipeline")
+            self.fail("Error Running ASoC SAST Pipeline")
             return False
         logging.info("========== Step 1: Complete =======================\n")
         
@@ -107,7 +107,7 @@ class AppScanOnCloudSAST():
         irxPath = self.genIrx(scanName, appscanPath, self.targetDir, reportsDir, configFile)
         if(irxPath is None):
             logging.error("IRX File Not Generated.")
-            self.fail(message="Error Running ASoC SAST Pipeline")
+            self.fail("Error Running ASoC SAST Pipeline")
             return False
         logging.info("========== Step 2: Complete =======================\n")
         
@@ -117,7 +117,7 @@ class AppScanOnCloudSAST():
         scanId = self.runScan(scanName, appId, irxPath, comment, True)
         if(scanId is None):
             logging.error("Error creating scan")
-            self.fail(message="Error Running ASoC SAST Pipeline")
+            self.fail("Error Running ASoC SAST Pipeline")
             return False
         logging.info("========== Step 3: Complete =======================\n")
         
@@ -159,12 +159,12 @@ class AppScanOnCloudSAST():
         report = self.getReport(scanId, reportPath, notes)
         if(report is None):
             logging.error("Error downloading report")
-            self.fail(message="Error Running ASoC SAST Pipeline")
+            self.fail("Error Running ASoC SAST Pipeline")
             return False
         logging.info(f"Report Downloaded [{reportPath}]")
         logging.info("========== Step 5: Complete =======================\n")
         
-        self.success(message="ASoC SAST Pipeline Complete")
+        self.success("ASoC SAST Pipeline Complete")
         
     #download and unzip SAClientUtil to {cwd}/saclient
     def getSAClient(self, saclientPath="saclient"):
@@ -199,7 +199,7 @@ class AppScanOnCloudSAST():
 
         #Make sure all the SAClientUtil Files can be read and executed
         logging.info("Setting permissions on SACLientUtil Files")
-        result = os.system("chmod -R 755 {saclientPath}")
+        result = os.system(f"chmod -R 755 {saclientPath}")
         
         if(result == 0):
             logging.info("Successfully set permissions")
@@ -390,7 +390,7 @@ class AppScanOnCloudSAST():
         ts = time.time()
         return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
     
-    def fail(message=""):
+    def fail(messag=""):
         logging.info("Action Failed: {message}")
         sys.exit(1)
         
