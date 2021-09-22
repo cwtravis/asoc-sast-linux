@@ -114,7 +114,7 @@ class AppScanOnCloudSAST():
         
         #Step 3: Run the Scan
         logging.info("========== Step 3: Run the Scan on ASoC ===========")
-        scanId = self.runScan(scanName, appId, irxPath, comment, True)
+        scanId = self.runScan(scanName, appid, irxPath, comment, True)
         if(scanId is None):
             logging.error("Error creating scan")
             self.fail("Error Running ASoC SAST Pipeline")
