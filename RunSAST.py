@@ -11,7 +11,7 @@ import logging
 import sys
 import stat
 
-logging.basicConfig(filename='asoc.log', encoding='utf-8', format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(filename='asoc.log', format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
 class AppScanOnCloudSAST():
@@ -27,7 +27,7 @@ class AppScanOnCloudSAST():
         appid = os.getenv("ASOC_APPID")
         
         #If ASOC_WAIT = True, wait for the scan to complete
-        wait = os.getenv("ASOC_WAIT")
+        wait = os.getenv("ASOC_WAIT", True)
         
         #Print extra info if DEBUG = True
         self.debug = os.getenv("DEBUG", False)
@@ -136,6 +136,9 @@ class AppScanOnCloudSAST():
             return False
         logging.info("========== Step 3: Complete =======================\n")
         
+        if(wait == False):
+            self.success("ASoC SAST Pipeline Complete")
+            return True
         
         #Step 4: Get the Scan Summary
         logging.info("========== Step 4: Fetch Scan Summary =============")      
@@ -406,11 +409,11 @@ class AppScanOnCloudSAST():
         return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
     
     def fail(self, messag=""):
-        logging.info("Action Failed: {message}")
+        logging.info(f"Action Failed: {message}")
         sys.exit(1)
         
     def success(self, message=""):
-        logging.info("Action Success: {message}")
+        logging.info(f"Action Success: {message}")
         
 if __name__ == '__main__':
     action = AppScanOnCloudSAST()
