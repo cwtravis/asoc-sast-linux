@@ -106,7 +106,7 @@ class AppScanOnCloudSAST():
         #Step 2: Generate the IRX
         logging.info("========== Step 2: Generate IRX File ==============")
         
-        irxPath = self.genIrx(scanName, appscanPath, self.cloneDir, reportsDir, configFile)
+        irxPath = self.genIrx(scanName, appscanPath, self.targetDir, reportsDir, configFile)
         if(irxPath is None):
             logging.error("IRX File Not Generated.")
             self.fail(message="Error Running ASoC SAST Pipeline")
@@ -390,6 +390,12 @@ class AppScanOnCloudSAST():
         ts = time.time()
         return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
     
+    def fail(message=""):
+        logging.info("Action Failed: {message}")
+        sys.exit(1)
+        
+    def success(message=""):
+        logging.info("Action Success: {message}")
         
 if __name__ == '__main__':
     action = AppScanOnCloudSAST()
