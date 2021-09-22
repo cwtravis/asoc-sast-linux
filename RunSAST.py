@@ -199,13 +199,14 @@ class AppScanOnCloudSAST():
 
         #Make sure all the SAClientUtil Files can be read and executed
         logging.info("Setting permissions on SACLientUtil Files")
-        for root, dirs, files in os.walk(saclientPath):
-            for d in dirs:
-                print(os.path.join(root, d))
-                os.chmod(os.path.join(root, d), 777)
-            for f in files:
-                os.chmod(os.path.join(root, f), 777)
+        result = os.system("chmod -R 755 {saclientPath}")
         
+        if(result == 0):
+            logging.info("Successfully set permissions")
+        else:
+            logging.error("Failed setting permissions")
+            return None
+            
         #Find the appscan executable
         logging.info("Finding appscan bin path")
         appscanPath = None
@@ -215,8 +216,6 @@ class AppScanOnCloudSAST():
             
         if(os.path.exists(appscanPath)):
             logging.info(f"AppScan Bin Path [{appscanPath}]")
-            res = os.chmod(appscanPath, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
-            logging.info(f"Setting permission of appscan.sh: {res}")
         else:
             logging.error("Something went wrong setting up the SAClientUtil")
             logging.error(f"AppScan Bin [{appscanPath}] not found!")
