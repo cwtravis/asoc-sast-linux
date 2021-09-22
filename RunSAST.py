@@ -201,6 +201,7 @@ class AppScanOnCloudSAST():
         logging.info("Setting permissions on SACLientUtil Files")
         for root, dirs, files in os.walk(saclientPath):
             for d in dirs:
+                print(os.path.join(root, d))
                 os.chmod(os.path.join(root, d), 777)
             for f in files:
                 os.chmod(os.path.join(root, f), 777)
