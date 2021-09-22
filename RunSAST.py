@@ -214,7 +214,7 @@ class AppScanOnCloudSAST():
             
         if(os.path.exists(appscanPath)):
             logging.info(f"AppScan Bin Path [{appscanPath}]")
-            os.chmod(appscanPath, stat.S_IXOTH)
+            os.chmod(appscanPath, stat.S_IRWXO )
         else:
             logging.error("Something went wrong setting up the SAClientUtil")
             logging.error(f"AppScan Bin [{appscanPath}] not found!")
