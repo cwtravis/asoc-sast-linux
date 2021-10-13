@@ -23,6 +23,7 @@ class AppScanOnCloudSAST():
         scanName = os.getenv("ASOC_SCAN_NAME", "Automated Scan from asoc-sast-linux")
         apikeyid = os.getenv("ASOC_KEY")
         apikeysecret = os.getenv("ASOC_SECRET")
+	
         self.targetDir = os.getenv("ASOC_TARGET_DIR")
         appid = os.getenv("ASOC_APPID")
         
@@ -38,7 +39,8 @@ class AppScanOnCloudSAST():
         
         
         self.cwd = os.getcwd()
-        
+        self.reportDir = os.getenv("ASOC_REPORT_DIR", self.cwd)
+	
         #If targetDir is not set, run from cwd
         if(self.targetDir is None):
             self.targetDir = self.cwd
@@ -83,7 +85,7 @@ class AppScanOnCloudSAST():
                 return False
                 
         #Create Reports Dir if it does not exist 
-        reportsDir = os.path.join(self.cwd, "reports")
+        reportsDir = os.path.join(self.reportDir, "reports")
         if(not os.path.isdir(reportsDir)):
             logging.info(f"Reports dir doesn't exists [{reportsDir}]")
             os.mkdir(reportsDir)
