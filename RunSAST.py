@@ -52,7 +52,7 @@ class AppScanOnCloudSAST():
         
         self.asoc = ASoC(apikey)
         logging.info("Executing Pipe: HCL AppScan on Cloud SAST")
-        logging.info("\trev 2021-08-24")
+        logging.info("\trev 2024-03-28")
         
         #valid chars for a scan name: alphanumeric + [.-_ ]
         scanName = re.sub('[^a-zA-Z0-9\s_\-\.]', '_', scanName)+"_"+self.getTimeStamp()
