@@ -24,7 +24,7 @@ class AppScanOnCloudSAST():
         apikeyid = os.getenv("ASOC_KEY")
         apikeysecret = os.getenv("ASOC_SECRET")
 	
-        self.targetDir = os.getenv("ASOC_TARGET_DIR")
+        self.targetDir = os.getenv("ASOC_TARGET_DIR", os.cwd())
         appid = os.getenv("ASOC_APPID")
         
         #If ASOC_WAIT = True, wait for the scan to complete
