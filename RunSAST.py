@@ -16,7 +16,7 @@ logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
 class AppScanOnCloudSAST():
     asoc = None
-    
+        
     #Run SAST Scan Process
     def run(self):
         #Read Provided Variables from ENV
@@ -195,22 +195,21 @@ class AppScanOnCloudSAST():
         if(r.status_code != 200):
             logging.error("Invalid HTTP code downloading SAClient Util")
             return False
-        file_size = int(r.headers["content-length"])
-        disposition = r.headers["content-disposition"]
         chunk_size = 4096
         xfered = 0
         percent = 0
         start = time.time()
         save_path = os.path.join(self.cwd, "saclient.zip")
+        logging.info(f"SAClientUtil Downloading...")
         with open(save_path, 'wb') as fd:
             for chunk in r.iter_content(chunk_size=chunk_size):
                 fd.write(chunk)
                 xfered += len(chunk)
-                percent = round((xfered/file_size)*100)
-                if(time.time()-start > 3):
-                    logging.info(f"SAClientUtil Download: {percent}%")
+                #percent = round((xfered/file_size)*100)
+                if(time.time()-start > 5):
+                    logging.info(f"...")
                     start = time.time()
-        logging.info(f"SAClientUtil Download: {percent}%")
+        logging.info(f"SAClientUtil Download: Done")
         
         #Extract the downloaded file
         logging.info("Extracting SAClientUtil Zip")
