@@ -409,7 +409,7 @@ class AppScanOnCloudSAST():
         ts = time.time()
         return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
     
-    def fail(self, messag=""):
+    def fail(self, message=""):
         logging.info(f"Action Failed: {message}")
         sys.exit(1)
         
